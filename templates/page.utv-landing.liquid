@@ -1,0 +1,39 @@
+{% comment %}
+  UTV Landing Page Template for Shopify
+  Template for: templates/page.utv-landing.liquid
+{% endcomment %}
+
+{{ 'utv-landing.css' | asset_url | stylesheet_tag }}
+
+<div class="utv-landing-page">
+  {% section 'utv-hero' %}
+  {% section 'utv-trust-indicators' %}
+  {% section 'utv-how-it-works' %}
+  {% section 'utv-product' %}
+  {% section 'utv-testimonials' %}
+  {% section 'utv-faq' %}
+</div>
+
+<script>
+  // FAQ Toggle functionality
+  function toggleFAQ(element) {
+    const answer = element.nextElementSibling;
+    answer.classList.toggle('active');
+  }
+  
+  // Smooth scrolling for CTA button
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    ctaButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const productSection = document.querySelector('#utv-product');
+        if (productSection) {
+          productSection.scrollIntoView({ 
+            behavior: 'smooth' 
+          });
+        }
+      });
+    });
+  });
+</script>

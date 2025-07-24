@@ -1,0 +1,116 @@
+{% comment %}
+  UTV Add to Cart Form Snippet
+  Snippet: snippets/utv-add-to-cart-form.liquid
+  Usage: {% render 'utv-add-to-cart-form', product: product %}
+{% endcomment %}
+
+{% assign product = product | default: all_products[product_handle] %}
+
+{% if product and product.available %}
+  <form action="/cart/add" method="post" enctype="multipart/form-data" class="utv-cart-form">
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    
+    {% if product.has_only_default_variant == false %}
+      <div class="product-variants">
+        {% for option in product.options_with_values %}
+          <div class="variant-selector">
+            <label for="option-{{ forloop.index }}">{{ option.name }}</label>
+            <select name="options[{{ option.name | escape }}]" id="option-{{ forloop.index }}" class="variant-select">
+              {% for value in option.values %}
+                <option value="{{ value | escape }}"
+                  {% if option.selected_value == value %}selected="selected"{% endif %}>
+                  {{ value }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="quantity-selector">
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantity-input">
+    </div>
+
+    <div class="price-display">
+      <span class="current-price">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </span>
+      {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+        <span class="compare-price">
+          {{ product.selected_or_first_available_variant.compare_at_price | money }}
+        </span>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="add-to-cart" {% unless product.available %}disabled{% endunless %}>
+      {% if product.available %}
+        {{ button_text | default: 'Add to Cart' }}
+      {% else %}
+        Sold Out
+      {% endif %}
+    </button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.querySelector('.utv-cart-form');
+      const variantSelects = form.querySelectorAll('.variant-select');
+      
+      if (variantSelects.length > 0) {
+        variantSelects.forEach(select => {
+          select.addEventListener('change', updateVariant);
+        });
+      }
+
+      function updateVariant() {
+        const options = Array.from(variantSelects).map(select => select.value);
+        const variant = findVariantByOptions(options);
+        
+        if (variant) {
+          form.querySelector('input[name="id"]').value = variant.id;
+          
+          const priceElement = form.querySelector('.current-price');
+          if (priceElement) {
+            priceElement.textContent = formatMoney(variant.price);
+          }
+          
+          const compareElement = form.querySelector('.compare-price');
+          if (compareElement) {
+            if (variant.compare_at_price > variant.price) {
+              compareElement.textContent = formatMoney(variant.compare_at_price);
+              compareElement.style.display = 'inline';
+            } else {
+              compareElement.style.display = 'none';
+            }
+          }
+          
+          const button = form.querySelector('.add-to-cart');
+          if (variant.available) {
+            button.disabled = false;
+            button.textContent = '{{ button_text | default: "Add to Cart" }}';
+          } else {
+            button.disabled = true;
+            button.textContent = 'Sold Out';
+          }
+        }
+      }
+
+      function findVariantByOptions(options) {
+        const product = {{ product | json }};
+        return product.variants.find(variant => {
+          return variant.options.every((option, index) => option === options[index]);
+        });
+      }
+
+      function formatMoney(cents) {
+        return '$' + (cents / 100).toFixed(2);
+      }
+    });
+  </script>
+{% else %}
+  <div class="product-unavailable">
+    <p>Product not available</p>
+  </div>
+{% endif %}

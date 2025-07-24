@@ -1,0 +1,74 @@
+{% comment %}
+  UTV Trust Indicators Section
+  Section: sections/utv-trust-indicators.liquid
+{% endcomment %}
+
+<section class="utv-trust-indicators">
+  <div class="container">
+    <div class="trust-content">
+      {% for block in section.blocks %}
+        <div class="trust-item" {{ block.shopify_attributes }}>
+          <div class="trust-number">{{ block.settings.trust_number }}</div>
+          <div>{{ block.settings.trust_label }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UTV Trust Indicators",
+  "tag": "section",
+  "class": "utv-trust-indicators-section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "trust_indicator",
+      "name": "Trust Indicator",
+      "settings": [
+        {
+          "type": "text",
+          "id": "trust_number",
+          "label": "Number/Stat",
+          "default": "100,000+"
+        },
+        {
+          "type": "text",
+          "id": "trust_label",
+          "label": "Label",
+          "default": "Vehicles Registered"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UTV Trust Indicators",
+      "blocks": [
+        {
+          "type": "trust_indicator",
+          "settings": {
+            "trust_number": "100,000+",
+            "trust_label": "Vehicles Registered"
+          }
+        },
+        {
+          "type": "trust_indicator",
+          "settings": {
+            "trust_number": "3 Days",
+            "trust_label": "Processing Time"
+          }
+        },
+        {
+          "type": "trust_indicator",
+          "settings": {
+            "trust_number": "4.9★",
+            "trust_label": "Customer Rating"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

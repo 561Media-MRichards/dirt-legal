@@ -1,0 +1,106 @@
+{% comment %}
+  UTV Testimonials Section
+  Section: sections/utv-testimonials.liquid
+{% endcomment %}
+
+<section class="utv-testimonials">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.section_title | default: 'What Our Customers Say' }}</h2>
+    <div class="testimonial-carousel">
+      {% for block in section.blocks %}
+        <div class="testimonial" {{ block.shopify_attributes }}>
+          <div class="video-placeholder">
+            {% if block.settings.video_url %}
+              <a href="{{ block.settings.video_url }}" target="_blank">
+                <div class="play-button">▶</div>
+              </a>
+            {% else %}
+              <div class="play-button">▶</div>
+            {% endif %}
+            <div class="video-info">
+              <div class="video-author">{{ block.settings.author_name }}</div>
+              <div>"{{ block.settings.testimonial_text }}"</div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UTV Testimonials",
+  "tag": "section",
+  "class": "utv-testimonials-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "What Our Customers Say"
+    }
+  ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name & Location",
+          "default": "Mike R., Texas"
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial_text",
+          "label": "Testimonial Text",
+          "default": "Finally riding my UTV on the street legally. The whole process was seamless."
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UTV Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Mike R., Texas",
+            "testimonial_text": "Finally riding my UTV on the street legally. The whole process was seamless."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah L., California",
+            "testimonial_text": "I was skeptical at first, but they delivered exactly what they promised."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "John D., Florida",
+            "testimonial_text": "Great service and communication throughout the entire process."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Lisa M., Arizona",
+            "testimonial_text": "Highly recommend for anyone looking to make their UTV street legal."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

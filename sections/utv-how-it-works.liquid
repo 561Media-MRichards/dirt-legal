@@ -1,0 +1,101 @@
+{% comment %}
+  UTV How It Works Section
+  Section: sections/utv-how-it-works.liquid
+{% endcomment %}
+
+<section class="utv-how-it-works">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.section_title | default: 'How It Works' }}</h2>
+    <div class="steps">
+      {% for block in section.blocks %}
+        <div class="step" {{ block.shopify_attributes }}>
+          <div class="step-number">{{ forloop.index }}</div>
+          <h3>{{ block.settings.step_title }}</h3>
+          <p>{{ block.settings.step_description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.show_guarantee %}
+      <div class="legal-guarantee">
+        <strong>{{ section.settings.guarantee_text | default: '🛡️ 100% Legal or Your Money Back Guarantee' }}</strong>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UTV How It Works",
+  "tag": "section",
+  "class": "utv-how-it-works-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "How It Works"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Show Guarantee",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "🛡️ 100% Legal or Your Money Back Guarantee"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step Title",
+          "default": "Complete Our Quick 2-Minute Form"
+        },
+        {
+          "type": "textarea",
+          "id": "step_description",
+          "label": "Step Description",
+          "default": "Tell us about your UTV and get instant eligibility confirmation with custom pricing for your state."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UTV How It Works",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_title": "Complete Our Quick 2-Minute Form",
+            "step_description": "Tell us about your UTV and get instant eligibility confirmation with custom pricing for your state."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_title": "We Handle the Paperwork",
+            "step_description": "Our team processes your title, registration, and license plate in as little as 3 days through the proper channels."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_title": "Get Back to Riding—Legally",
+            "step_description": "Receive your official documentation and start enjoying your street-legal ATV."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

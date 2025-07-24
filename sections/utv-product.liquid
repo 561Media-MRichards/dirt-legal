@@ -1,0 +1,261 @@
+{% comment %}
+  UTV Product Section
+  Section: sections/utv-product.liquid
+{% endcomment %}
+
+<section class="utv-product" id="utv-product">
+  <div class="container">
+    <div class="product-card">
+      <h2 class="product-title">{{ section.settings.product_title | default: 'UTV Street Legal Kit' }}</h2>
+      
+      <div class="product-includes">
+        <h4>{{ section.settings.includes_title | default: 'What\'s Included:' }}</h4>
+        <ul>
+          {% for block in section.blocks %}
+            {% if block.type == 'included_item' %}
+              <li {{ block.shopify_attributes }}>{{ block.settings.item_text }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% if section.settings.show_state_selector %}
+        <div class="product-options">
+          <label for="state-select">{{ section.settings.state_label | default: 'Select Your State:' }}</label>
+          <select id="state-select">
+            <option>Choose your state...</option>
+            <option>Alabama</option>
+            <option>Alaska</option>
+            <option>Arizona</option>
+            <option>Arkansas</option>
+            <option>California</option>
+            <option>Colorado</option>
+            <option>Connecticut</option>
+            <option>Delaware</option>
+            <option>Florida</option>
+            <option>Georgia</option>
+            <option>Hawaii</option>
+            <option>Idaho</option>
+            <option>Illinois</option>
+            <option>Indiana</option>
+            <option>Iowa</option>
+            <option>Kansas</option>
+            <option>Kentucky</option>
+            <option>Louisiana</option>
+            <option>Maine</option>
+            <option>Maryland</option>
+            <option>Massachusetts</option>
+            <option>Michigan</option>
+            <option>Minnesota</option>
+            <option>Mississippi</option>
+            <option>Missouri</option>
+            <option>Montana</option>
+            <option>Nebraska</option>
+            <option>Nevada</option>
+            <option>New Hampshire</option>
+            <option>New Jersey</option>
+            <option>New Mexico</option>
+            <option>New York</option>
+            <option>North Carolina</option>
+            <option>North Dakota</option>
+            <option>Ohio</option>
+            <option>Oklahoma</option>
+            <option>Oregon</option>
+            <option>Pennsylvania</option>
+            <option>Rhode Island</option>
+            <option>South Carolina</option>
+            <option>South Dakota</option>
+            <option>Tennessee</option>
+            <option>Texas</option>
+            <option>Utah</option>
+            <option>Vermont</option>
+            <option>Virginia</option>
+            <option>Washington</option>
+            <option>West Virginia</option>
+            <option>Wisconsin</option>
+            <option>Wyoming</option>
+          </select>
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_quick_start %}
+        <div class="quick-start-copy">
+          <h4>{{ section.settings.quick_start_title | default: '🚀 Start with a Quick 2-Minute Form' }}</h4>
+          <p>{{ section.settings.quick_start_description | default: 'Tell us about your UTV and we\'ll create a custom registration plan just for you. No commitment required to get started!' }}</p>
+          <ul style="text-align: left; margin: 20px 0;">
+            {% for block in section.blocks %}
+              {% if block.type == 'quick_start_benefit' %}
+                <li {{ block.shopify_attributes }}>{{ block.settings.benefit_text }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div class="price">{{ section.settings.price_text | default: 'Starting at $999.99' }}</div>
+      
+      {% if section.settings.product_handle %}
+        <form action="/cart/add" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="id" value="{{ all_products[section.settings.product_handle].selected_or_first_available_variant.id }}">
+          <button type="submit" class="add-to-cart">
+            {{ section.settings.button_text | default: 'Get My Registration' }}
+          </button>
+        </form>
+      {% else %}
+        <button class="add-to-cart">
+          {{ section.settings.button_text | default: 'Get My Registration' }}
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UTV Product",
+  "tag": "section",
+  "class": "utv-product-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Product Title",
+      "default": "UTV Street Legal Kit"
+    },
+    {
+      "type": "text",
+      "id": "includes_title",
+      "label": "Includes Section Title",
+      "default": "What's Included:"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_state_selector",
+      "label": "Show State Selector",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "state_label",
+      "label": "State Selector Label",
+      "default": "Select Your State:"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_start",
+      "label": "Show Quick Start Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "quick_start_title",
+      "label": "Quick Start Title",
+      "default": "🚀 Start with a Quick 2-Minute Form"
+    },
+    {
+      "type": "textarea",
+      "id": "quick_start_description",
+      "label": "Quick Start Description",
+      "default": "Tell us about your UTV and we'll create a custom registration plan just for you. No commitment required to get started!"
+    },
+    {
+      "type": "text",
+      "id": "price_text",
+      "label": "Price Text",
+      "default": "Starting at $999.99"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Get My Registration"
+    },
+    {
+      "type": "product",
+      "id": "product_handle",
+      "label": "Product (optional - for cart functionality)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "included_item",
+      "name": "Included Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "item_text",
+          "label": "Item Text",
+          "default": "Registration Processing"
+        }
+      ]
+    },
+    {
+      "type": "quick_start_benefit",
+      "name": "Quick Start Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "benefit_text",
+          "label": "Benefit Text",
+          "default": "✓ Instant eligibility check"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UTV Product",
+      "blocks": [
+        {
+          "type": "included_item",
+          "settings": {
+            "item_text": "Registration Processing"
+          }
+        },
+        {
+          "type": "included_item",
+          "settings": {
+            "item_text": "License Plate & Title"
+          }
+        },
+        {
+          "type": "included_item",
+          "settings": {
+            "item_text": "Legal Documentation"
+          }
+        },
+        {
+          "type": "included_item",
+          "settings": {
+            "item_text": "Customer Support Access"
+          }
+        },
+        {
+          "type": "quick_start_benefit",
+          "settings": {
+            "benefit_text": "✓ Instant eligibility check"
+          }
+        },
+        {
+          "type": "quick_start_benefit",
+          "settings": {
+            "benefit_text": "✓ Custom timeline for your state"
+          }
+        },
+        {
+          "type": "quick_start_benefit",
+          "settings": {
+            "benefit_text": "✓ Exact pricing with no hidden fees"
+          }
+        },
+        {
+          "type": "quick_start_benefit",
+          "settings": {
+            "benefit_text": "✓ Required documents checklist"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

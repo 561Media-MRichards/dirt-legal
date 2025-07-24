@@ -1,0 +1,92 @@
+{% comment %}
+  UTV FAQ Section
+  Section: sections/utv-faq.liquid
+{% endcomment %}
+
+<section class="utv-faq" id="faqs">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.section_title | default: 'Frequently Asked Questions' }}</h2>
+    {% for block in section.blocks %}
+      <div class="faq-item" {{ block.shopify_attributes }}>
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          {{ block.settings.question }}
+        </div>
+        <div class="faq-answer">
+          {{ block.settings.answer }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UTV FAQ",
+  "tag": "section",
+  "class": "utv-faq-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Frequently Asked Questions"
+    }
+  ],
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long does the process take?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Your registration can be processed in as little as 3 days! Standard processing typically takes 15-30 business days depending on your state's requirements."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UTV FAQ",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does the process take?",
+            "answer": "Your registration can be processed in as little as 3 days! Standard processing typically takes 15-30 business days depending on your state's requirements."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is this legal in my state?",
+            "answer": "Yes! We operate in all 50 states and ensure full compliance with local and federal regulations."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to visit the DMV?",
+            "answer": "No! We handle all the paperwork and DMV interactions for you. You never have to leave your home."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What if I don't have a title?",
+            "answer": "No problem! We can help you get a title for your UTV through our title recovery service."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
