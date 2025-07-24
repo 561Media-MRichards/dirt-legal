@@ -1,0 +1,150 @@
+{% comment %}
+  Generic Header Section
+  Section: sections/utv-header.liquid
+{% endcomment %}
+
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      {% if section.settings.logo %}
+        <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ section.settings.logo.alt | default: shop.name }}" class="logo">
+      {% else %}
+        <img src="https://images.squarespace-cdn.com/content/v1/5744dd6686db43a53993fb09/dcc1c644-0e98-4da8-a396-55fa33d5bd91/dirt-legal-logo.png?format=1500w" alt="Dirt Legal" class="logo">
+      {% endif %}
+      <nav class="nav">
+        {% for block in section.blocks %}
+          {% if block.type == 'nav_link' %}
+            {% if block.settings.link_type == 'scroll' and block.settings.scroll_target != blank %}
+              <a href="#{{ block.settings.scroll_target }}" class="scroll-link" {{ block.shopify_attributes }}>{{ block.settings.link_text }}</a>
+            {% else %}
+              <a href="{{ block.settings.link_url }}" {{ block.shopify_attributes }}>{{ block.settings.link_text }}</a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header", 
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Navigation Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Link"
+        },
+        {
+          "type": "select",
+          "id": "link_type",
+          "label": "Link Type",
+          "options": [
+            {
+              "value": "scroll",
+              "label": "Scroll to Section"
+            },
+            {
+              "value": "url",
+              "label": "Custom URL"
+            }
+          ],
+          "default": "scroll"
+        },
+        {
+          "type": "text",
+          "id": "scroll_target",
+          "label": "Section ID",
+          "info": "Enter the Section ID from the target section (e.g., 'products', 'faqs')"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Custom URL",
+          "info": "Only used if 'Custom URL' is selected above"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header",
+      "blocks": [
+        {
+          "type": "nav_link",
+          "settings": {
+            "link_text": "Products",
+            "link_type": "scroll",
+            "scroll_target": "products"
+          }
+        },
+        {
+          "type": "nav_link",
+          "settings": {
+            "link_text": "FAQs",
+            "link_type": "scroll", 
+            "scroll_target": "faqs"
+          }
+        },
+        {
+          "type": "nav_link",
+          "settings": {
+            "link_text": "Contact",
+            "link_type": "url",
+            "link_url": "/pages/contact"
+          }
+        },
+        {
+          "type": "nav_link",
+          "settings": {
+            "link_text": "Track My Order",
+            "link_type": "url",
+            "link_url": "/pages/track-order"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+// Enhanced smooth scrolling with section existence check
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollLinks = document.querySelectorAll('a.scroll-link[href^="#"]');
+  
+  scrollLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+      
+      if (targetSection) {
+        // Section exists, scroll to it
+        targetSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      } else {
+        // Section doesn't exist, show helpful message in console
+        console.warn(`Section with ID "${targetId}" not found. Make sure the target section has this ID set.`);
+      }
+    });
+  });
+});
+</script>

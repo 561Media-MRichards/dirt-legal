@@ -3,13 +3,13 @@
   Section: sections/utv-product.liquid
 {% endcomment %}
 
-<section class="utv-product" id="utv-product">
+<section class="utv-product"{% if section.settings.section_id != blank %} id="{{ section.settings.section_id }}"{% endif %}>
   <div class="container">
     <div class="product-card">
       <h2 class="product-title">{{ section.settings.product_title | default: 'UTV Street Legal Kit' }}</h2>
       
       <div class="product-includes">
-        <h4>{{ section.settings.includes_title | default: 'What\'s Included:' }}</h4>
+        <h4>{{ section.settings.includes_title | default: "What's Included:" }}</h4>
         <ul>
           {% for block in section.blocks %}
             {% if block.type == 'included_item' %}
@@ -81,7 +81,7 @@
       {% if section.settings.show_quick_start %}
         <div class="quick-start-copy">
           <h4>{{ section.settings.quick_start_title | default: '🚀 Start with a Quick 2-Minute Form' }}</h4>
-          <p>{{ section.settings.quick_start_description | default: 'Tell us about your UTV and we\'ll create a custom registration plan just for you. No commitment required to get started!' }}</p>
+          <p>{{ section.settings.quick_start_description | default: "Tell us about your UTV and we'll create a custom registration plan just for you. No commitment required to get started!" }}</p>
           <ul style="text-align: left; margin: 20px 0;">
             {% for block in section.blocks %}
               {% if block.type == 'quick_start_benefit' %}
@@ -116,6 +116,12 @@
   "tag": "section",
   "class": "utv-product-section",
   "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID (for navigation links)",
+      "info": "Used for smooth scrolling. Use lowercase, no spaces (e.g., 'products', 'contact-us')"
+    },    
     {
       "type": "text",
       "id": "product_title",

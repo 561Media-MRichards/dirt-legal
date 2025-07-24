@@ -3,7 +3,7 @@
   Section: sections/utv-testimonials.liquid
 {% endcomment %}
 
-<section class="utv-testimonials">
+<section class="utv-testimonials"{% if section.settings.section_id != blank %} id="{{ section.settings.section_id }}"{% endif %}>
   <div class="container">
     <h2 class="section-title">{{ section.settings.section_title | default: 'What Our Customers Say' }}</h2>
     <div class="testimonial-carousel">
@@ -39,6 +39,12 @@
       "id": "section_title",
       "label": "Section Title",
       "default": "What Our Customers Say"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID (for navigation links)",
+      "info": "Used for smooth scrolling. Use lowercase, no spaces (e.g., 'products', 'contact-us')"
     }
   ],
   "max_blocks": 8,

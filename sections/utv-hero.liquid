@@ -3,30 +3,58 @@
   Section: sections/utv-hero.liquid
 {% endcomment %}
 
-<section class="utv-hero">
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-text">
-        <h1>{{ section.settings.hero_title | default: 'Get Your UTV Street Legal in Any State' }}</h1>
-        <p>{{ section.settings.hero_subtitle | default: 'Start with a quick 2-minute form. Processed in as little as 3 days. No DMV visits. No headaches. Just results.' }}</p>
-        <a href="{{ section.settings.cta_link | default: '#utv-product' }}" class="cta-button">
-          {{ section.settings.cta_text | default: 'Get My Registration' }}
-        </a>
-      </div>
-      <div class="hero-image">
-        {% if section.settings.hero_image %}
-          <img src="{{ section.settings.hero_image | img_url: '600x300' }}" alt="{{ section.settings.hero_image.alt | default: 'UTV Street Legal' }}">
-        {% else %}
-          <div class="wireframe-box">
-            <div class="wireframe-label">Hero Image/Video</div>
-            UTV on Road with License Plate<br>
-            (Video/Image Placeholder)
-          </div>
-        {% endif %}
+{{ 'utv-landing.css' | asset_url | stylesheet_tag }}
+
+<div class="utv-landing-page">
+  <section class="utv-hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>{{ section.settings.hero_title | default: 'Get Your UTV Street Legal in Any State' }}</h1>
+          <p>{{ section.settings.hero_subtitle | default: 'Start with a quick 2-minute form. Processed in as little as 3 days. No DMV visits. No headaches. Just results.' }}</p>
+          <a href="{{ section.settings.cta_link | default: '#utv-product' }}" class="cta-button">
+            {{ section.settings.cta_text | default: 'Get My Registration' }}
+          </a>
+        </div>
+        <div class="hero-image">
+          {% if section.settings.hero_image %}
+            <img src="{{ section.settings.hero_image | img_url: '600x300' }}" alt="{{ section.settings.hero_image.alt | default: 'UTV Street Legal' }}">
+          {% else %}
+            <div class="wireframe-box">
+              <div class="wireframe-label">Hero Image/Video</div>
+              UTV on Road with License Plate<br>
+              (Video/Image Placeholder)
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
+
+<script>
+  // FAQ Toggle functionality
+  function toggleFAQ(element) {
+    const answer = element.nextElementSibling;
+    answer.classList.toggle('active');
+  }
+  
+  // Smooth scrolling for CTA button
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    ctaButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const productSection = document.querySelector('#utv-product');
+        if (productSection) {
+          productSection.scrollIntoView({ 
+            behavior: 'smooth' 
+          });
+        }
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
@@ -55,8 +83,7 @@
     {
       "type": "url",
       "id": "cta_link",
-      "label": "CTA Button Link",
-      "default": "#utv-product"
+      "label": "CTA Button Link"
     },
     {
       "type": "image_picker",

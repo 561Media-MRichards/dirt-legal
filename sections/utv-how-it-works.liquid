@@ -3,7 +3,7 @@
   Section: sections/utv-how-it-works.liquid
 {% endcomment %}
 
-<section class="utv-how-it-works">
+<section class="utv-how-it-works"{% if section.settings.section_id != blank %} id="{{ section.settings.section_id }}"{% endif %}>
   <div class="container">
     <h2 class="section-title">{{ section.settings.section_title | default: 'How It Works' }}</h2>
     <div class="steps">
@@ -35,6 +35,12 @@
       "label": "Section Title",
       "default": "How It Works"
     },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID (for navigation links)",
+      "info": "Used for smooth scrolling. Use lowercase, no spaces (e.g., 'products', 'contact-us')"
+    },    
     {
       "type": "checkbox",
       "id": "show_guarantee",

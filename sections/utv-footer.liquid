@@ -1,0 +1,195 @@
+{% comment %}
+  Generic Footer Section
+  Section: sections/utv-footer.liquid
+{% endcomment %}
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- Contact Info Column (Fixed) -->
+      <div class="footer-section">
+        <h4>{{ section.settings.contact_title | default: 'Contact Info' }}</h4>
+        <ul>
+          <li>Phone: {{ section.settings.footer_phone | default: '1-800-DIRT-LEGAL' }}</li>
+          <li>Email: {{ section.settings.footer_email | default: 'support@dirt.legal' }}</li>
+          <li>Hours: {{ section.settings.footer_hours | default: '9AM-6PM EST' }}</li>
+        </ul>
+      </div>
+
+      <!-- Dynamic Footer Columns -->
+      {% for block in section.blocks %}
+        {% if block.type == 'footer_column' %}
+          <div class="footer-section" {{ block.shopify_attributes }}>
+            <h4>{{ block.settings.column_title }}</h4>
+            
+            {% if block.settings.column_type == 'trust_badges' %}
+              <!-- Trust Badges Layout (max 3) -->
+              <div class="trust-badges">
+                {% if block.settings.link1_text != blank %}
+                  <div class="trust-badge">{{ block.settings.link1_text }}</div>
+                {% endif %}
+                {% if block.settings.link2_text != blank %}
+                  <div class="trust-badge">{{ block.settings.link2_text }}</div>
+                {% endif %}
+                {% if block.settings.link3_text != blank %}
+                  <div class="trust-badge">{{ block.settings.link3_text }}</div>
+                {% endif %}
+              </div>
+            {% else %}
+              <!-- Regular Links Layout -->
+              <ul>
+                {% if block.settings.link1_text != blank %}
+                  <li><a href="{{ block.settings.link1_url }}">{{ block.settings.link1_text }}</a></li>
+                {% endif %}
+                {% if block.settings.link2_text != blank %}
+                  <li><a href="{{ block.settings.link2_url }}">{{ block.settings.link2_text }}</a></li>
+                {% endif %}
+                {% if block.settings.link3_text != blank %}
+                  <li><a href="{{ block.settings.link3_url }}">{{ block.settings.link3_text }}</a></li>
+                {% endif %}
+                {% if block.settings.link4_text != blank %}
+                  <li><a href="{{ block.settings.link4_url }}">{{ block.settings.link4_text }}</a></li>
+                {% endif %}
+                {% if block.settings.link5_text != blank %}
+                  <li><a href="{{ block.settings.link5_url }}">{{ block.settings.link5_text }}</a></li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "footer",
+  "class": "footer-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contact Information"
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact Section Title",
+      "default": "Contact Info"
+    },
+    {
+      "type": "text",
+      "id": "footer_phone",
+      "label": "Phone Number",
+      "default": "1-800-DIRT-LEGAL"
+    },
+    {
+      "type": "text",
+      "id": "footer_email",
+      "label": "Email Address",
+      "default": "support@dirt.legal"
+    },
+    {
+      "type": "text",
+      "id": "footer_hours",
+      "label": "Business Hours",
+      "default": "9AM-6PM EST"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "footer_column",
+      "name": "Footer Column",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "column_title",
+          "label": "Column Title",
+          "default": "Links"
+        },
+        {
+          "type": "select",
+          "id": "column_type",
+          "label": "Column Type",
+          "options": [
+            {
+              "value": "links",
+              "label": "Regular Links"
+            },
+            {
+              "value": "trust_badges",
+              "label": "Trust Badges"
+            }
+          ],
+          "default": "links"
+        },
+        {
+          "type": "text",
+          "id": "link1_text",
+          "label": "Item 1 Text",
+          "info": "For trust badges: just enter badge text (e.g., 'SSL'). For links: enter link text."
+        },
+        {
+          "type": "url",
+          "id": "link1_url",
+          "label": "Item 1 URL",
+          "info": "Only used for regular links, ignored for trust badges"
+        },
+        {
+          "type": "text",
+          "id": "link2_text",
+          "label": "Item 2 Text"
+        },
+        {
+          "type": "url",
+          "id": "link2_url",
+          "label": "Item 2 URL",
+          "info": "Only used for regular links, ignored for trust badges"
+        },
+        {
+          "type": "text",
+          "id": "link3_text",
+          "label": "Item 3 Text"
+        },
+        {
+          "type": "url",
+          "id": "link3_url",
+          "label": "Item 3 URL",
+          "info": "Only used for regular links, ignored for trust badges"
+        },
+        {
+          "type": "text",
+          "id": "link4_text",
+          "label": "Link 4 Text",
+          "info": "Only for regular links (trust badges limited to 3)"
+        },
+        {
+          "type": "url",
+          "id": "link4_url",
+          "label": "Link 4 URL",
+          "info": "Only for regular links"
+        },
+        {
+          "type": "text",
+          "id": "link5_text",
+          "label": "Link 5 Text", 
+          "info": "Only for regular links (trust badges limited to 3)"
+        },
+        {
+          "type": "url",
+          "id": "link5_url",
+          "label": "Link 5 URL",
+          "info": "Only for regular links"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer"
+    }
+  ]
+}
+{% endschema %}

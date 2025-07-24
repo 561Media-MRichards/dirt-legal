@@ -3,7 +3,7 @@
   Section: sections/utv-trust-indicators.liquid
 {% endcomment %}
 
-<section class="utv-trust-indicators">
+<section class="utv-trust-indicators"{% if section.settings.section_id != blank %} id="{{ section.settings.section_id }}"{% endif %}>
   <div class="container">
     <div class="trust-content">
       {% for block in section.blocks %}
@@ -21,6 +21,14 @@
   "name": "UTV Trust Indicators",
   "tag": "section",
   "class": "utv-trust-indicators-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID (for navigation links)",
+      "info": "Used for smooth scrolling. Use lowercase, no spaces (e.g., 'products', 'contact-us')"
+    },   
+  ],  
   "max_blocks": 4,
   "blocks": [
     {
